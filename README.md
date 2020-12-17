@@ -1,2 +1,1 @@
-a repository for download my script.
-
+A repository using releases for distributing some scripts.

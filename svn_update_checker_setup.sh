@@ -33,7 +33,7 @@ read -p "Is this ok? y/[n]: " ensure
 if [ "$ensure" != "y" ]; then echo "setup cancelled"; exit 0; fi;
 
 if [ ! -d ~/.script ]; then mkdir ~/.script; fi;
-wget -P ~/.script https://github.com/chenhuanjie/sources/releases/download/0.0.3/svn_update_checker.sh;
+wget -P ~/.script https://github.com/chenhuanjie/sources/releases/download/0.0.4/svn_update_checker.sh;
 chmod +x ~/.script/svn_update_checker.sh;
 if [ $? -ne 0 ]; then
     echo "error occured downloading, setup cancelled"; exit 1;

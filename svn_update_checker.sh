@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+source ~/.bash_profile > /dev/null 2>&1;
+source ~/.bashrc > /dev/null 2>&1;
 svn_path=`grep "^path=" ~/.script/svn_update_checker.lock | cut -d'=' -f2`
 last_notify=`grep "^last=" ~/.script/svn_update_checker.lock | cut -d'=' -f2`
-if [ ! -d ${svn_path} ]; then
+if [ ! -d $svn_path ]; then
     echo "path ${svn_path} doesn't exists"; exit 1;
 fi;
 cd $svn_path;
@@ -22,8 +24,7 @@ local_version=`(echo "${local_info}" | grep -i "^revision" | cut -d' ' -f2)`
 remote_version=`(echo "${remote_info}" | grep -i "^revision" | cut -d' ' -f2)`
 if [[ remote_version -eq last_notify ]]; then exit 0; fi;
 if [[ local_version -ne remote_version ]]; then
-    /usr/bin/osascript -e "display notification \"当前svn落后$((remote_version-local_version))个版本\"" \
-        "with title \"svn更新提醒\"";
+    /usr/bin/osascript -e "display notification \"your current svn repository is behind remote server by $((remote_version-local_version)) versions\" with title \"svn update checker\"";
 fi;
 new_info=`(
     cat ~/.script/svn_update_checker.lock | awk -F'=' '{if($1!="last") print $0}';

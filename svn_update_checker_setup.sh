@@ -29,7 +29,7 @@ echo "  local path: ${svn_path}"
 echo "  local version: ${local_version}"
 echo "  remote url: ${remote_url}"
 echo "  remote version: ${remote_version}"
-read -p "Is this ok? y/[n]" ensure
+read -p "Is this ok? y/[n]: " ensure
 if [ "$ensure" != "y" ]; then echo "setup cancelled"; exit 0; fi;
 
 if [ ! -d ~/.script ]; then mkdir ~/.script; fi;

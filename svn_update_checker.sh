@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 svn_path=`grep "^path=" ~/.script/svn_update_checker.lock | cut -d'=' -f2`
 last_notify=`grep "^last=" ~/.script/svn_update_checker.lock | cut -d'=' -f2`
 if [ ! -d ${svn_path} ]; then

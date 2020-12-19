@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 source ~/.bash_profile > /dev/null 2>&1;
 source ~/.bashrc > /dev/null 2>&1;
-svn_path=`grep "^path=" ~/.script/svn_update_checker.lock | cut -d'=' -f2`
-last_notify=`grep "^last=" ~/.script/svn_update_checker.lock | cut -d'=' -f2`
+svn_path=`grep "^path=" ~/.script/svn_update_checker.lock | cut -d'=' -f2-100`;
+last_notify=`grep "^last=" ~/.script/svn_update_checker.lock | cut -d'=' -f2-100`;
+svn_username=`grep "^user=" ~/.script/svn_update_checker.lock | cut -d'=' -f2-100`;
+svn_password=`grep "^passwd=" ~/.script/svn_update_checker.lock | cut -d'=' -f2-100`;
 if [ ! -d $svn_path ]; then
     echo "path ${svn_path} doesn't exists"; exit 1;
 fi;
 cd $svn_path;
-local_info=`svn info`;
+local_info=`svn info --username $svn_username --password $svn_password`;
 if [ $? -ne 0 ]; then
     echo "error occured when trying to get local svn info at ${svn_path}.";
     echo "please check local svn repository path is right and you have the right access.";
     exit -1;
 fi;
 remote_url=`(echo "${local_info}" | grep -i "^repository root" | cut -d' ' -f3)`;
-remote_info=`svn info "${remote_url}"`;
+remote_info=`svn info "${remote_url}" --username $svn_username --password $svn_password`;
 if [ $? -ne 0 ]; then
     echo "error occured when trying to get remote svn info at ${remote_url}.";
     echo "please check remote svn repository URL is right and you have the right access.";

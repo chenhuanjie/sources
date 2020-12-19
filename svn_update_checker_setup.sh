@@ -43,14 +43,14 @@ read -p "Is this ok? y/[n]: " ensure
 if [ "$ensure" != "y" ]; then echo "setup cancelled"; exit 0; fi;
 
 if [ ! -d ~/.script ]; then mkdir ~/.script; fi;
-wget -P ~/.script https://github.com/chenhuanjie/sources/releases/download/0.0.6/svn_update_checker.sh;
-echo "successfully downloaded checker script";
+wget -P ~/.script https://github.com/chenhuanjie/sources/releases/download/0.0.7/svn_update_checker.sh;
+echo "successfully download checker script";
 chmod +x ~/.script/svn_update_checker.sh;
 if [ $? -ne 0 ]; then
     echo "error occured downloading, setup cancelled"; exit 1;
 fi;
 echo "path=${svn_path}" >> ~/.script/svn_update_checker.lock;
-if [ -z "$svn_username" ]; then
+if [ -n "$svn_username" ]; then
     echo "user=${svn_username}" >> ~/.script/svn_update_checker.lock;
     echo "passwd=${svn_password}" >> ~/.script/svn_update_checker.lock;
 fi;
@@ -61,7 +61,7 @@ if [ $? -ne 0 ]; then
     cron_header="# svn update checker";
     cron_script="*/5 * * * * ~/.script/svn_update_checker.sh;";
     (echo "$cron_text"; echo "$cron_header"; echo "$cron_script") | crontab -;
-    echo "add crontab task successfully";
+    echo "successfully add crontab task";
 else
     echo "crontab task already exists";
 fi;
